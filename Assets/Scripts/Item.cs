@@ -8,6 +8,8 @@ public class Item {
 	public int ID;
 	public string description;
 	public Texture2D icon;
+	public int quantity;
+	public int maxQuantity;
 	public int power;
 	public int speed;
 	public ItemType type;
