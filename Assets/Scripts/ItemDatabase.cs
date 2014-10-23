@@ -4,6 +4,6 @@ using System.Collections.Generic;
 
 public class ItemDatabase : MonoBehaviour {
 
-	public List<Item> itemsList = new List<Item>();
+	public List<Item> items = new List<Item>();
 
 }
