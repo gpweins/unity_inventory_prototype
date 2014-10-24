@@ -54,7 +54,21 @@ public class Inventory : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Gets the item.
+	/// Gets the item by the index.
+	/// </summary>
+	/// <returns>The item.</returns>
+	/// <param name="index">Index.</param>
+	Item GetItem(int index)
+	{
+		if(index < database.items.Count)
+		{
+			return database.items[index];
+        }
+		return new Item();
+	}
+
+	/// <summary>
+	/// Gets the item by the slug.
 	/// </summary>
 	/// <returns>The item.</returns>
 	/// <param name="slug">Slug.</param>
@@ -84,13 +98,27 @@ public class Inventory : MonoBehaviour {
 	}
 
 	/// <summary>
+	/// Add the specified item by the index on the database.
+	/// </summary>
+	/// <param name="index">Index.</param>
+	void Add(int index)
+	{
+		Item newItem = GetItem(index);
+		if(newItem != null) {
+            Add(newItem);
+        }
+    }
+    
+    /// <summary>
 	/// Add the specified item by the slug.
 	/// </summary>
 	/// <param name="slug">Slug.</param>
 	void Add(string slug)
 	{
 		Item newItem = GetItem(slug);
-		Add(newItem);
+		if(newItem != null) {
+			Add(newItem);
+		}
 	}
 
 }
