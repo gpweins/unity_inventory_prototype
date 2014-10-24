@@ -14,43 +14,20 @@ public class Inventory : MonoBehaviour {
 	void Start()
 	{
 		database = GameObject.FindGameObjectWithTag("Item Database").GetComponent<ItemDatabase>();
-		isVisible = false;
-	}
 
-	void Update()
-	{
-		if(Input.GetButtonDown("Inventory"))
-		{
-			isVisible = !isVisible;
-		}
-	}
-
-	/// <summary>
-	/// Raises the GU event.
-	/// </summary>
-	void OnGUI()
-	{
-		if(isVisible) {
-			for(int i = 0; i < items.Count; i++)
-			{
-				string labelText = items[i].name;
-				if ( items[i].quantity > 1 )
-				{
-					labelText += " (" + items[i].quantity.ToString() + ")";
-				}
-				GUI.Label(new Rect(10, 30 * (i + 1), 200, 30), labelText);
-			}
-
-			if(GUI.Button(new Rect(220, 30, 160, 30), "Add Health Potion"))
-			{
-				Add("great_health_potion");
-			}
-
-			if(GUI.Button(new Rect(220, 70, 160, 30), "Add Health Potion"))
-			{
-				Add("health_potion");
-			}
-		}
+		Add("bat_wing");
+		Add("bow");
+		Add("map");
+		Add("leather_armor");
+		Add("small_health_potion", 97);
+		Add("health_potion", 50);
+		Add("great_health_potion", 10);
+		Add("diamond", 5);
+		Add("wooden_shield");
+		Add("power_ring");
+		Add("gold_necklace");
+		Add("saffire_necklace");
+		Add("book");
 	}
 
 	/// <summary>
@@ -58,7 +35,7 @@ public class Inventory : MonoBehaviour {
 	/// </summary>
 	/// <returns>The item.</returns>
 	/// <param name="index">Index.</param>
-	Item GetItem(int index)
+	public Item GetItem(int index)
 	{
 		if(index < database.items.Count)
 		{
@@ -72,40 +49,59 @@ public class Inventory : MonoBehaviour {
 	/// </summary>
 	/// <returns>The item.</returns>
 	/// <param name="slug">Slug.</param>
-	Item GetItem(string slug)
+	public Item GetItem(string slug)
 	{
 		return database.items.Find(x => x.slug == slug);
 	}
 
 	/// <summary>
-	/// Add the specified newItem.
+	/// Add the specified item.
 	/// </summary>
-	/// <param name="newItem">New item.</param>
-	void Add(Item newItem)
+	/// <param name="item">New item.</param>
+	public void Add(Item item)
 	{
-		if(items.Contains(newItem))
+		Add(item, 1);
+	}
+
+	/// <summary>
+	/// Add the specified item and quantity.
+	/// </summary>
+	/// <param name="item">New item.</param>
+	/// <param name="quantity">Quantity.</param>
+	public void Add(Item item, int quantity)
+	{
+		if(quantity > item.maxQuantity)
 		{
-			Item item = items.Find(x => x.slug == newItem.slug);
-			if (item.quantity < item.maxQuantity)
+			quantity = item.maxQuantity;
+		}
+
+		if(items.Contains(item))
+		{
+			if ((item.quantity + quantity) < item.maxQuantity)
 			{
-				item.quantity++;
+				item.quantity += quantity;
+            }
+			else
+			{
+				item.quantity = item.maxQuantity;
 			}
-		}
-		else
-		{
-			items.Add(newItem);
-		}
+        }
+        else
+        {
+			item.quantity = quantity;
+            items.Add(item);
+        }
 	}
 
 	/// <summary>
 	/// Add the specified item by the index on the database.
 	/// </summary>
 	/// <param name="index">Index.</param>
-	void Add(int index)
+	public void Add(int index)
 	{
-		Item newItem = GetItem(index);
-		if(newItem != null) {
-            Add(newItem);
+		Item item = GetItem(index);
+		if(item != null) {
+            Add(item);
         }
     }
     
@@ -113,12 +109,25 @@ public class Inventory : MonoBehaviour {
 	/// Add the specified item by the slug.
 	/// </summary>
 	/// <param name="slug">Slug.</param>
-	void Add(string slug)
+	public void Add(string slug)
 	{
-		Item newItem = GetItem(slug);
-		if(newItem != null) {
-			Add(newItem);
+		Item item = GetItem(slug);
+		if(item != null) {
+			Add(item);
 		}
 	}
+
+	/// <summary>
+	/// Add the specified item by the slug with a defined quantity.
+	/// </summary>
+	/// <param name="slug">Slug.</param>
+	/// <param name="quantity">Quantity.</param>
+	public void Add(string slug, int quantity)
+	{
+		Item item = GetItem(slug);
+		if(item != null) {
+			Add(item, quantity);
+        }
+    }
 
 }
