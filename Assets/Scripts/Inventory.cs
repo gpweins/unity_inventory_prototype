@@ -6,6 +6,7 @@ public class Inventory : MonoBehaviour {
 
 	public List<Item> items = new List<Item>();
 	private ItemDatabase database;
+	private bool isVisible;
 
 	/// <summary>
 	/// Start this instance.
@@ -13,6 +14,15 @@ public class Inventory : MonoBehaviour {
 	void Start()
 	{
 		database = GameObject.FindGameObjectWithTag("Item Database").GetComponent<ItemDatabase>();
+		isVisible = false;
+	}
+
+	void Update()
+	{
+		if(Input.GetButtonDown("Inventory"))
+		{
+			isVisible = !isVisible;
+		}
 	}
 
 	/// <summary>
@@ -20,24 +30,26 @@ public class Inventory : MonoBehaviour {
 	/// </summary>
 	void OnGUI()
 	{
-		for(int i = 0; i < items.Count; i++)
-		{
-			string labelText = items[i].name;
-			if ( items[i].quantity > 1 )
+		if(isVisible) {
+			for(int i = 0; i < items.Count; i++)
 			{
-				labelText += " (" + items[i].quantity.ToString() + ")";
+				string labelText = items[i].name;
+				if ( items[i].quantity > 1 )
+				{
+					labelText += " (" + items[i].quantity.ToString() + ")";
+				}
+				GUI.Label(new Rect(10, 30 * (i + 1), 200, 30), labelText);
 			}
-			GUI.Label(new Rect(10, 30 * (i + 1), 200, 30), labelText);
-		}
 
-		if(GUI.Button(new Rect(220, 30, 160, 30), "Add Health Potion"))
-		{
-			Add("great_health_potion");
-		}
+			if(GUI.Button(new Rect(220, 30, 160, 30), "Add Health Potion"))
+			{
+				Add("great_health_potion");
+			}
 
-		if(GUI.Button(new Rect(220, 70, 160, 30), "Add Health Potion"))
-		{
-			Add("health_potion");
+			if(GUI.Button(new Rect(220, 70, 160, 30), "Add Health Potion"))
+			{
+				Add("health_potion");
+			}
 		}
 	}
 
