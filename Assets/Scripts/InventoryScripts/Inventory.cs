@@ -9,12 +9,10 @@ public class Inventory : MonoBehaviour {
 	private bool isVisible;
 
 	/// <summary>
-	/// Start this instance.
+	/// Awake this instance.
 	/// </summary>
-	void Start()
+	void Awake()
 	{
-		database = GameObject.FindGameObjectWithTag("Item Database").GetComponent<ItemDatabase>();
-
 		Add("bat_wing");
 		Add("bow");
 		Add("map");
@@ -28,6 +26,14 @@ public class Inventory : MonoBehaviour {
 		Add("gold_necklace");
 		Add("saffire_necklace");
 		Add("book");
+	}
+
+	/// <summary>
+	/// Start this instance.
+	/// </summary>
+	void Start()
+	{
+		database = GameObject.FindGameObjectWithTag(Tags.itemDatabase).GetComponent<ItemDatabase>();
 	}
 
 	/// <summary>

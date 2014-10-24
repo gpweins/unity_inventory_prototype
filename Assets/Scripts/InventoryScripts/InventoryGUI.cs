@@ -18,7 +18,7 @@ public class InventoryGUI : MonoBehaviour {
 	/// Start this instance.
 	/// </summary>
 	void Start () {
-		inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>();
+		inventory = GameObject.FindGameObjectWithTag(Tags.inventory).GetComponent<Inventory>();
 		isEnabled = false;
 
 		width = 780;
@@ -32,7 +32,7 @@ public class InventoryGUI : MonoBehaviour {
 	void Update () {
 		if(Input.GetButtonDown("Inventory"))
 		{
-			MonoBehaviour[] scriptComponents = GameObject.FindGameObjectWithTag("Player").GetComponents<MonoBehaviour>();
+			MonoBehaviour[] scriptComponents = GameObject.FindGameObjectWithTag(Tags.player).GetComponents<MonoBehaviour>();
 			foreach(MonoBehaviour script in scriptComponents) {
 				script.enabled = isEnabled;
 			}
