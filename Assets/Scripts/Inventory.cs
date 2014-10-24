@@ -1,11 +1,11 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
 public class Inventory : MonoBehaviour {
 
 	public List<Item> items = new List<Item>();
-	public ItemDatabase database;
+	private ItemDatabase database;
 
 	/// <summary>
 	/// Start this instance.
@@ -20,7 +20,7 @@ public class Inventory : MonoBehaviour {
 	/// </summary>
 	void OnGUI()
 	{
-		for(int i =0; i < items.Count; i++)
+		for(int i = 0; i < items.Count; i++)
 		{
 			string labelText = items[i].name;
 			if ( items[i].quantity > 1 )
@@ -32,7 +32,12 @@ public class Inventory : MonoBehaviour {
 
 		if(GUI.Button(new Rect(220, 30, 160, 30), "Add Health Potion"))
 		{
-			Add(4);
+			Add("great_health_potion");
+		}
+
+		if(GUI.Button(new Rect(220, 70, 160, 30), "Add Health Potion"))
+		{
+			Add("health_potion");
 		}
 	}
 
@@ -40,10 +45,10 @@ public class Inventory : MonoBehaviour {
 	/// Gets the item.
 	/// </summary>
 	/// <returns>The item.</returns>
-	/// <param name="id">Identifier.</param>
-	Item GetItem(int id)
+	/// <param name="slug">Slug.</param>
+	Item GetItem(string slug)
 	{
-		return database.items.Find(x => x.ID == id);
+		return database.items.Find(x => x.slug == slug);
 	}
 
 	/// <summary>
@@ -54,7 +59,7 @@ public class Inventory : MonoBehaviour {
 	{
 		if(items.Contains(newItem))
 		{
-			Item item = items.Find(x => x.ID == newItem.ID);
+			Item item = items.Find(x => x.slug == newItem.slug);
 			if (item.quantity < item.maxQuantity)
 			{
 				item.quantity++;
@@ -62,18 +67,17 @@ public class Inventory : MonoBehaviour {
 		}
 		else
 		{
-			newItem.quantity = 1;
 			items.Add(newItem);
 		}
 	}
 
 	/// <summary>
-	/// Add the specified id.
+	/// Add the specified item by the slug.
 	/// </summary>
-	/// <param name="id">Identifier.</param>
-	void Add(int id)
+	/// <param name="slug">Slug.</param>
+	void Add(string slug)
 	{
-		Item newItem = GetItem(id);
+		Item newItem = GetItem(slug);
 		Add(newItem);
 	}
 
