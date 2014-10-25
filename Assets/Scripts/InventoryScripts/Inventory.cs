@@ -13,6 +13,14 @@ public class Inventory : MonoBehaviour {
 	/// </summary>
 	void Awake()
 	{
+		database = GameObject.FindGameObjectWithTag(Tags.itemDatabase).GetComponent<ItemDatabase>();
+	}
+
+	/// <summary>
+	/// Start this instance.
+	/// </summary>
+	void Start()
+	{
 		Add("bat_wing");
 		Add("bow");
 		Add("map");
@@ -24,17 +32,8 @@ public class Inventory : MonoBehaviour {
 		Add("wooden_shield");
 		Add("power_ring");
 		Add("gold_necklace");
-		Add("saffire_necklace");
-		Add("book");
-	}
-
-	/// <summary>
-	/// Start this instance.
-	/// </summary>
-	void Start()
-	{
-		database = GameObject.FindGameObjectWithTag(Tags.itemDatabase).GetComponent<ItemDatabase>();
-	}
+        Add("saffire_necklace");
+        Add("book");	}
 
 	/// <summary>
 	/// Gets the item by the index.
