@@ -60,6 +60,17 @@ public class Inventory : MonoBehaviour {
 	}
 
 	/// <summary>
+	/// Determines whether this instance has item with the specified slug.
+	/// </summary>
+	/// <returns><c>true</c> if this instance has item with the specified slug; otherwise, <c>false</c>.</returns>
+	/// <param name="slug">Slug.</param>
+	public bool HasItem(string slug)
+	{
+		Item item = GetItem(slug);
+		return items.Contains(item);
+	}
+
+	/// <summary>
 	/// Add the specified item.
 	/// </summary>
 	/// <param name="item">New item.</param>
@@ -134,5 +145,14 @@ public class Inventory : MonoBehaviour {
 			Add(item, quantity);
         }
     }
+
+	/// <summary>
+	/// Remove the specified item.
+	/// </summary>
+	/// <param name="item">Item.</param>
+	public void Remove(Item item)
+	{
+		items.Remove(item);
+	}
 
 }

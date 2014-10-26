@@ -6,7 +6,7 @@ public class InventoryGUI : MonoBehaviour {
 
 	public GUISkin skin;
 
-	public Inventory inventory;
+	private Inventory inventory;
 	private bool isEnabled;
 	private Vector2 scrollPosition = Vector2.zero;
 	private int width;
@@ -22,7 +22,7 @@ public class InventoryGUI : MonoBehaviour {
 		isEnabled = false;
 
 		width = 780;
-		height = 580;
+		height = 460;
 		itemHeight = 60;
 	}
 	
@@ -56,7 +56,7 @@ public class InventoryGUI : MonoBehaviour {
 	{
 		GUI.BeginGroup(new Rect(50, 50, width, height));
 		GUI.Box(new Rect(0, 0, width, height), "Inventory");
-		scrollPosition = GUI.BeginScrollView(new Rect(10, 50, width - 10, height - 50), scrollPosition, new Rect(0, 0, width - 30, (items.Count * itemHeight) + 10));
+		scrollPosition = GUI.BeginScrollView(new Rect(10, 50, width - 10, height - 50), scrollPosition, new Rect(0, 0, width - 30, (items.Count * itemHeight)));
 		for(int i = 0; i < items.Count; i++)
 		{
 			DrawItem(items[i], i);
@@ -78,17 +78,24 @@ public class InventoryGUI : MonoBehaviour {
 		GUI.Label(new Rect(20, (index * itemHeight) , 40, 40), item.icon);
 		if(item.type == Item.ItemType.Quest)
 		{
-			GUI.Label(new Rect(40, (index * itemHeight) + 20 , 30, 30), "Q");
+			GUI.Label(new Rect(40, (index * itemHeight) + 20 , 20, 20), "Q", "Quest Label");
 		}
-		GUI.Label(new Rect(80, (index * itemHeight), 610, 20), item.name);
-		GUI.Label(new Rect(80, (index * itemHeight) + 20, 610, 20), item.description);
+		GUI.Label(new Rect(80, (index * itemHeight), 610, 20), item.name, "Item Title");
+		GUI.Label(new Rect(80, (index * itemHeight) + 20, 610, 20), item.description, "Item description");
 		GUI.Label(new Rect(630, (index * itemHeight), 40, 20), labelQty);
 
 		if(item.type == Item.ItemType.Potion)
 		{
 	        if(GUI.Button(new Rect(630, (index * itemHeight) + 20, 40, 20), "Use"))
 			{
-				item.quantity--;
+				if(item.quantity > 1)
+				{
+					item.quantity--;
+				}
+				else
+				{
+					inventory.Remove(item);
+				}
 			}
 		}
 	}
